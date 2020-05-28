@@ -30,5 +30,5 @@ steps:
 
 - task: VSTest@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    platform: 'linux-arm64'
+    configuration: 'linux-arm64'
