@@ -7,7 +7,14 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'linux'
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 variables:
   solution: '**/*.sln'
@@ -25,10 +32,10 @@ steps:
   inputs:
     solution: '$(solution)'
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
+    platform: linux-arm64
     configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
   inputs:
-    platform: '$(buildPlatform)'
+    platform: linux-arm64
     configuration: '$(buildConfiguration)'
